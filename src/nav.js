@@ -3,14 +3,16 @@ import "./all_in_one.css";
 
 const Nav = ({ value, setValue }) => {
   const [activeMenu, setActiveMenu] = useState(null);
-  const dropdownRefs = {
-    filter: useRef(null),
-    edit: useRef(null),
-    create: useRef(null),
-    profile: useRef(null),
-  };
 
-  // Close dropdown if clicked outside
+  // ✅ Declare refs individually (Hooks at top level)
+  const filterRef = useRef(null);
+  const editRef = useRef(null);
+  const createRef = useRef(null);
+  const profileRef = useRef(null);
+
+  const dropdownRefs = { filter: filterRef, edit: editRef, create: createRef, profile: profileRef };
+
+  // ✅ Close dropdown if clicked outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -23,7 +25,7 @@ const Nav = ({ value, setValue }) => {
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, []); // ✅ safe now
 
   const toggleMenu = () => {
     setValue((prev) => !prev);
@@ -51,7 +53,7 @@ const Nav = ({ value, setValue }) => {
         <div
           className={activeMenu === "filter" ? "menu-box-change" : "icons-box"}
           id="filter"
-          ref={dropdownRefs.filter}
+          ref={filterRef}
           onClick={() => toggleDropdown("filter")}
         >
           <i className="fa-solid fa-filter center"></i> Filter
@@ -70,7 +72,7 @@ const Nav = ({ value, setValue }) => {
         <div
           className={activeMenu === "edit" ? "menu-box-change" : "icons-box"}
           id="edit"
-          ref={dropdownRefs.edit}
+          ref={editRef}
           onClick={() => toggleDropdown("edit")}
         >
           <i className="fa-solid fa-file-pen center"></i> Edit
@@ -89,7 +91,7 @@ const Nav = ({ value, setValue }) => {
         <div
           className={activeMenu === "create" ? "menu-box-change" : "icons-box"}
           id="create"
-          ref={dropdownRefs.create}
+          ref={createRef}
           onClick={() => toggleDropdown("create")}
         >
           <i className="fa-solid fa-square-plus center"></i> Create
@@ -108,7 +110,7 @@ const Nav = ({ value, setValue }) => {
         <div
           className={activeMenu === "profile" ? "menu-box-change" : "icons-box"}
           id="profile"
-          ref={dropdownRefs.profile}
+          ref={profileRef}
           onClick={() => toggleDropdown("profile")}
         >
           <i className="fa-solid fa-user center"></i> Profile
