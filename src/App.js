@@ -1,25 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import MainInner from "./main inner.js";
+import Nav from "./nav.js";
+import "./all_in_one.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = () => {
+    const [value, setValue] = useState(false);
+    return (
+        <div id="app">
+            <Nav value={value} setValue={setValue}/>
+            <MainInner value={value} /> {/* ✅ value only for menu toggle */}
+        </div>
+    );  
 }
 
 export default App;
