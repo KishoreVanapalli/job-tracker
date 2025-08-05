@@ -1,16 +1,22 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import "./all_in_one.css";
 
 const Nav = ({ value, setValue }) => {
   const [activeMenu, setActiveMenu] = useState(null);
 
-  // ✅ Declare refs individually (Hooks at top level)
+  // Declare refs individually
   const filterRef = useRef(null);
   const editRef = useRef(null);
   const createRef = useRef(null);
   const profileRef = useRef(null);
 
-  const dropdownRefs = { filter: filterRef, edit: editRef, create: createRef, profile: profileRef };
+  // ✅ Memoize dropdownRefs so it doesn't recreate on every render
+  const dropdownRefs = useMemo(() => ({
+    filter: filterRef,
+    edit: editRef,
+    create: createRef,
+    profile: profileRef
+  }), []);
 
   // ✅ Close dropdown if clicked outside
   useEffect(() => {
@@ -25,7 +31,7 @@ const Nav = ({ value, setValue }) => {
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []); // ✅ safe now
+  }, [dropdownRefs]); // ✅ Added dependency
 
   const toggleMenu = () => {
     setValue((prev) => !prev);
